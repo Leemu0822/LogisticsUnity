@@ -25,17 +25,31 @@ public class ScriptWorldManager : MonoBehaviour
         var region_0 = Instantiate(RegionPrefab, this.gameObject.transform);
         region_0.transform.position = RegionTileScriptList[1114].gameObject.transform.position;
         var script_region_0 = region_0.GetComponent<ScriptRegion>();
- 
+        script_region_0.Name = "Capital";
+
 
         var region_1 = Instantiate(RegionPrefab, this.gameObject.transform);
         region_1.transform.position = RegionTileScriptList[1234].gameObject.transform.position;
         var script_region_1 = region_1.GetComponent<ScriptRegion>();
+        script_region_1.Name = "Farm";
 
         script_region_0.Neighbors = new ScriptRegion[] { script_region_1 };
         script_region_1.Neighbors = new ScriptRegion[] { script_region_0 };
         RegionScriptList.Add(script_region_0);
         RegionScriptList.Add(script_region_1);
 
+    }
+
+    public ScriptRegion GetRegion(Vector3 vector3)
+    {
+        foreach (var region in RegionScriptList)
+        {
+            if (Vector3.Distance(region.gameObject.transform.position, vector3) < 0.5f)
+            {
+                return region;
+            }
+        }
+        return null;
     }
 
     private void GenerateMap()
